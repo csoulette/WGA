@@ -24,7 +24,7 @@ foreach $organism (keys %sequence_hash) {
     @sequence_array = $sequence_hash{$organism} =~ /(.)/g;
     open (IN2, $gap_file); #This opens gaps.fasta
     $tally = 1; #Gap naming Convention
-    
+    open (OUT1, ">$organism\_gaps.fasta");
     while (<IN2>) {
 	chomp;
 	/$organism/ || next; #Associates gap list with organism genome
@@ -34,6 +34,7 @@ foreach $organism (keys %sequence_hash) {
 	($start < $stop) || next;
 	(length($seq)>19) || next;
 	$tally++;
-	print ">$organism\ID:$tally $start..$stop\n$seq\n";
+	print OUT1 ">$organism\ID:$tally $start..$stop\n$seq\n";
     }
+    close OUT;
 }
