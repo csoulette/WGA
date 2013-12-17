@@ -12,13 +12,13 @@ foreach $file (@genomes) {
     system ("cat $file >> query.fasta"); #If starting over please remove original query.fasta
 }
 
-system ("promer $ref query.fasta");
-system ("show-coords -bHT out.delta > new.coords");
-system ("perl get_promum.pl new.coords > coords_by_org");
-system ("perl get_gaps.pl coords_by_org > gaps.fasta");
+#system ("promer $ref query.fasta");
+#system ("show-coords -bHT out.delta > new.coords");
+#system ("perl get_promum.pl new.coords > coords_by_org");
+#system ("perl get_gaps.pl coords_by_org > gaps.fasta");
 system ("perl show_gaps2.pl gaps.fasta $fasta_list");
 
-    while ($fasta_list =~ /(.+)(\.fasta)/g) {
+    while ($fasta_list =~ /(\S+)(\.fasta)/g) {
 ($fasta_gap_list .= "$1_gaps$2 ");
 }
 
