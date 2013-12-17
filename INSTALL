@@ -1,0 +1,13 @@
+#Install MUMmmer
+wget http://sourceforge.net/projects/mummer/files/mummer/3.23/MUMmer3.23.tar.gz/download
+tar -zxvf download
+
+#go into MUMmer3.23
+cd MUMmer3.23
+make check
+make install
+
+#setup mummer in your path
+export MUMMER_HOME=<Path to mummer directory>/MUMmer3.23 
+#ex: export MUMMER_HOME=/home/gnandigam/WGA/MUMmer3.23 
+export PATH=$PATH:$MUMMER_HOME
