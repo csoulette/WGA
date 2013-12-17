@@ -1,20 +1,30 @@
 To run the complete pipeline, In the WGA folder run:
-./complete.sh
+./run_all.pl [ref_genome.fasta] [query1_genome.fasta] ... [query#_genome.fasta]
 
 This program goes through following steps:
 Steps followed: 
 -- run mummer : 
 -- -- promummer reference.fasta query.fasta 
--- -- show_coords out.delta > new.coords
+-- -- show_coords -bTH out.delta > new.coords
 This runs mummer with minimum match length of 20
 -- Fetch Gaps
 -- -- perl get_promum.pl new.coords > coords_by_org
 -- -- perl get_gaps.pl coords_by_org > gaps.fasta
--- -- perl show-gaps2.pl  > complete.fasta
+-- -- perl show-gaps2.pl gaps.fasta [ref_genome.fasta] [query1_genome.fasta] ... [query#_genome.fasta]
+Show-gaps2 will generate xNumber of genome_gaps.fasta
 -- Create Blast Database
--- -- makeblastdb -in complete.fasta -dbtype nucl
--- -- blastn -query complete.fasta -db complete.fasta > complete.out
+-- -- perl blast_all.pl [ref_genome_gaps.fasta] [query1_genome_gaps.fasta] ... [query#_genome_gaps.fasta]
 -- Build orthlogs
--- -- perl get-ortholog-pair.pl complete.out > ortholog_list
--- -- perl get_ortholog_seq.pl ortholog_list complete.out
+-- -- perl get-ortholog-pair.pl ref_query.out1 ref_query.out2 > ortholog_list
+Getting ortholog pairs script has to be run on all reciprocal blast searches to compile all orthologs
+-- -- perl get_ortholog_seq.pl ortholog_list > multi_gap_alignment.txt
 
+
+Viewing the alignment requires the following steps:
+-- Viewing Multi-Genome Gap Alignment
+-- -- Access Online Viewer at: http://cas-bioinfo.cas.unt.edu/mgsv/index.php
+-- -- Choose File : multi_gap_alignment.txt
+-- View the original MUMmer alignment in the same manner
+-- -- perl mummer2mgsv.pl new.coords > Original_alignment.txt
+-- -- Access Online Viewer at: http://cas-bioinfo.cas.unt.edu/mgsv/index.php
+-- -- Choose File : Original_alignment.txt
